@@ -10,7 +10,7 @@ pipeline {
     stage('Checkout') {
       steps {
         sh 'echo "Code checkout successful"'
-        // git branch: 'main', url: 'https://github.com/Stanleyraj05/java-maven-sonar-argocd-helm-k8s'
+        // git branch: 'main', url: 'https://github.com/Harshithabodela/java-maven-sonar-argocd-helm-k8s'
       }
     }
 
@@ -24,7 +24,7 @@ pipeline {
 
     stage('Static Code Analysis') {
       environment {
-        SONAR_URL = "http://18.232.88.180:9000"
+        SONAR_URL = "http://34.229.249.62:9000"
       }
       steps {
         withCredentials([string(credentialsId: 'sonarqube', variable: 'SONAR_AUTH_TOKEN')]) {
@@ -35,7 +35,7 @@ pipeline {
 
     stage('Build and Push Docker Image') {
       environment {
-        DOCKER_IMAGE = "stanleyraj05/ultimate-cicd:${BUILD_NUMBER}"
+        DOCKER_IMAGE = "harshithareddy05/ultimate-cicd:${BUILD_NUMBER}"
         REGISTRY_CREDENTIALS = credentials('docker-cred')
       }
       steps {
@@ -52,13 +52,13 @@ pipeline {
     stage('Update Deployment File') {
       environment {
         GIT_REPO_NAME = "java-maven-sonar-argocd-helm-k8s"
-        GIT_USER_NAME = "Stanleyraj05"
+        GIT_USER_NAME = "Harshithabodela"
       }
       steps {
         withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
           sh '''
-            git config user.email "stanleyraj05@gmail.com"
-            git config user.name "Stanleyraj05"
+            git config user.email "harshithareddybodela@gmail.com"
+            git config user.name "Harshithabodela"
 
             # Ensure BUILD_NUMBER is available
             export BUILD_NUMBER=${BUILD_NUMBER}
