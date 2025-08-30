@@ -48,6 +48,18 @@ pipeline {
         }
       }
     }
+stage('Vulnerability Scan with Trivy') {
+            steps {
+                sh '''
+                    echo "Scanning Docker image: ${DOCKER_IMAGE}"
+                    # Run Trivy inside a Docker container.
+                    # --exit-code 0 ensures the pipeline continues even if vulnerabilities are found.
+                    # --severity HIGH,CRITICAL filters the report to show only important issues.
+                    docker run --rm aquasec/trivy:latest image --exit-code 0 --severity HIGH,CRITICAL ${DOCKER_IMAGE}
+                '''
+            }
+        }
+
 
     stage('Update Deployment File') {
       environment {
